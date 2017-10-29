@@ -10,8 +10,8 @@ stages:
   - pretest
   - test
   - name: deploy
-	  if: branch = master
-	  
+    if: branch = master
+    
 
 
 env:
