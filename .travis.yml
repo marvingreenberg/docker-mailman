@@ -9,7 +9,9 @@ stages:
   - build
   - pretest
   - test
-  - deploy
+  - name: deploy
+	  if: branch = master
+	  
 
 
 env:
