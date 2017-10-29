@@ -7,10 +7,10 @@ language: python
 
 stages:
   - build
-	- pretest
+  - pretest
   - test
-	- deploy
-	  if: branch = master
+  - deploy
+    if: branch = master
 
 
 env:
@@ -19,21 +19,21 @@ env:
 
 jobs:
   include:
-	  - stage: build
-		  script:
-			  - docker --version
-		    - ./build.sh
-				- docker images
-		- stage: pretest
-		  script:
-				- sudo pip install docker-compose
-				- docker-compose --version
-			  - sh tests/generate_tests.sh
+    - stage: build
+      script:
+        - docker --version
+        - ./build.sh
+        - docker images
+    - stage: pretest
+      script:
+        - sudo pip install docker-compose
+        - docker-compose --version
+        - sh tests/generate_tests.sh
     - stage: test
-		  script:
-			  - sh tests/test.sh
-			after_script:
-			  - docker-compose down
-		- stage: deploy
-		  script:
-			  - sh .travis/deploy_dockerhub.sh
+      script:
+        - sh tests/test.sh
+      after_script:
+        - docker-compose down
+    - stage: deploy
+      script:
+        - sh .travis/deploy_dockerhub.sh
