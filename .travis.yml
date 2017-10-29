@@ -10,7 +10,6 @@ stages:
   - pretest
   - test
   - deploy
-    if: branch = master
 
 
 env:
