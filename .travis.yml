@@ -5,24 +5,35 @@ services:
 
 language: python
 
+stages:
+  - build
+	- pretest
+  - test
+	- deploy
+	  if: branch = master
+
+
 env:
   - DB=postgres
   - DB=mysql
 
-install:
-  - docker --version
-  - ./build.sh
-  - sudo pip install docker-compose
-  - docker-compose --version
-
-before_script:
-  - sh tests/generate_tests.sh
-
-script:
-  - sh tests/test.sh
-
-after_success:
-  - sh .travis/deploy_dockerhub.sh
-
-after_script:
-   - docker-compose down
+jobs:
+  include:
+	  - stage: build
+		  script:
+			  - docker --version
+		    - ./build.sh
+				- docker images
+		- stage: pretest
+		  script:
+				- sudo pip install docker-compose
+				- docker-compose --version
+			  - sh tests/generate_tests.sh
+    - stage: test
+		  script:
+			  - sh tests/test.sh
+			after_script:
+			  - docker-compose down
+		- stage: deploy
+		  script:
+			  - sh .travis/deploy_dockerhub.sh

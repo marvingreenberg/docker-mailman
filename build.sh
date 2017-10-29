@@ -3,7 +3,6 @@
 set -e
 
 # Use this script to build docker images.
-
 if [[ "$TRAVIS" ]]
 then
 	if [ "$TRAVIS_BRANCH" = "master" ]; then
