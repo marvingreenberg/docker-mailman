@@ -29,10 +29,7 @@ jobs:
         - docker-compose --version
         - sh tests/generate_tests.sh
     - stage: test
-      script:
-        - sh tests/test.sh
-      after_script:
-        - docker-compose down
+      script: sh tests/test.sh
+      after_script: docker-compose down
     - stage: deploy
-      script:
-        - sh .travis/deploy_dockerhub.sh
+      script: sh .travis/deploy_dockerhub.sh
