@@ -12,23 +12,20 @@ stages:
   - name: deploy
     if: branch = master
     
-
-
 env:
   - DB=postgres
   - DB=mysql
 
 jobs:
   include:
-    - stage: build
-      script:
-        - docker --version
-        - ./build.sh
-        - docker images
     - stage: test
       install: sudo pip install docker-compose
       before_script: sh tests/generate_tests.sh
-      script: sh tests/test.sh
+      script:
+        - docker--version
+        - ./build.sh
+        - docker images
+        - sh tests/test.sh
       after_script: docker-compose down
     - stage: deploy
       script: sh .travis/deploy_dockerhub.sh
