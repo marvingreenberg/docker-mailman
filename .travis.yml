@@ -25,11 +25,10 @@ jobs:
         - docker --version
         - ./build.sh
         - docker images
-    - stage: pretest
-      script:
-        - sudo pip install docker-compose
-        - docker-compose --version
-        - sh tests/generate_tests.sh
-    - script: sh ./tests/test.sh
+    - stage: test
+		  install: sudo pip install docker-compose
+			before_script: sh tests/generate_tests.sh
+			script: sh tests/test.sh
+			after_script: docker-compose down
     - stage: deploy
       script: sh .travis/deploy_dockerhub.sh
