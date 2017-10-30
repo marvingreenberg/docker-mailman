@@ -8,7 +8,7 @@ language: python
 stages:
   - build
   - pretest
-  - testing
+  - test
   - name: deploy
     if: branch = master
     
@@ -30,7 +30,6 @@ jobs:
         - sudo pip install docker-compose
         - docker-compose --version
         - sh tests/generate_tests.sh
-    - stage: testing
-      script: sh ./tests/test.sh
+    - script: sh ./tests/test.sh
     - stage: deploy
       script: sh .travis/deploy_dockerhub.sh
