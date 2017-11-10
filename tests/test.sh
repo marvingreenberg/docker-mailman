@@ -2,7 +2,7 @@
 set -e
 
 # If the DB environment variable is not set, use postgres.x
-if [ "$DB" = "postgres" ] || [ -z $DB ]; then
+if [ "$DB" = "postgres" ]; then
 	docker-compose -f docker-compose.yaml -f docker-compose-postgres.yaml -f docker-test.yaml up -d
 elif [ "$DB" = "mysql" ]; then
 	docker-compose -f docker-compose.yaml -f docker-compose-mysql.yaml -f docker-test.yaml up -d
