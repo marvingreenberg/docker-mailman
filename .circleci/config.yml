@@ -23,6 +23,9 @@ jobs:
           name: Generate Tests
           command: bash tests/generate_tests.sh
       - run:
+          name: SQLite tests
+          command: bash tests/tesh.sh
+      - run:
           environment:
             DB: postgres
           name: Postgres Tests
