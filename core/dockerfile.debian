@@ -1,0 +1,29 @@
+FROM python:3.7
+
+MAINTAINER Abhilash Raj
+
+#Add startup script to container
+COPY docker-entrypoint.sh /usr/local/bin/
+
+#Install all required packages, add user for executing mailman and set execution rights for startup script
+RUN apt update \
+        && apt install -y gcc libffi-dev gosu \
+        && ln -s `which gosu` /usr/sbin/su-exec \
+        && apt install -y postgresql-client mysql-client curl \
+        && python3 -m pip install -U pip \
+        && python3 -m pip install psycopg2 \
+                   mailman==3.2.2 \
+                   mailman-hyperkitty==1.1.0 \
+                   pymysql \
+    && adduser --system mailman
+
+# Change the working directory.
+WORKDIR /opt/mailman
+
+#Expose the ports for the api (8001) and lmtp (8024)
+EXPOSE 8001 8024
+
+ENV MAILMAN_CONFIG_FILE /etc/mailman.cfg
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["master", "--force"]
